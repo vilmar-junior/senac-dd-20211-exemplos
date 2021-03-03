@@ -39,7 +39,7 @@ public class PrimeiraTela extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		JLabel lblOla = new JLabel("Olá, alterei esse texto na máquina 1 (local) // mais uma mudança");
+		JLabel lblOla = new JLabel("Olá, alterei esse texto na máquina 1 (local) // outra mudança");
 		contentPane.add(lblOla, BorderLayout.CENTER);
 	}
 
