@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Cliente {
 
+	private Integer id;
 	private String nome;
 	private String cpf;
 	private List<Telefone> telefones;
@@ -29,6 +30,14 @@ public class Cliente {
 
 		return "Nome: " + this.getNome() + " - " + this.getCpf() + " (" + (this.isAtivo() ? "ativo" : "inativo")
 				+ "). \nEndereco: " + this.getEndereco() + ".\nTelefones: " + textoTelefones + "\n";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {

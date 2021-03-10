@@ -2,11 +2,16 @@ package model.entity.telefonia;
 
 public class Endereco {
 
+	private Integer id;
 	private String logradouro;
 	private String uf;
 	private String cidade;
 	private String cep;
 	private String numero;
+
+	public Endereco() {
+
+	}
 
 	public Endereco(String logradouro, String uf, String cidade, String cep, String numero) {
 		super();
@@ -21,6 +26,14 @@ public class Endereco {
 	public String toString() {
 		return "Endereco [logradouro=" + logradouro + ", uf=" + uf + ", cidade=" + cidade + ", cep=" + cep + ", numero="
 				+ numero + "]";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getLogradouro() {

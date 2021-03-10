@@ -1,4 +1,4 @@
-package model.entity;
+package model.entity.triangulo;
 
 /**
  * Classe de exemplo para ilustrar o uso de atributos e métodos privados

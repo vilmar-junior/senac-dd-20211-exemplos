@@ -1,7 +1,7 @@
-package view;
+package view.triangulo;
 
-import model.entity.Triangulo;
-import model.entity.TrianguloRetangulo;
+import model.entity.triangulo.Triangulo;
+import model.entity.triangulo.TrianguloRetangulo;
 
 public class MainTriangulo {
 
