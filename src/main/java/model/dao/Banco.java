@@ -12,7 +12,7 @@ public class Banco {
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String BANCODADOS = "telefonia";
 	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS;
-	private static final String USER = "mysql";
+	private static final String USER = "root";
 	private static final String PASSWORD = "";
 
 	public static Connection getConnection() {
@@ -68,6 +68,17 @@ public class Banco {
 	public static PreparedStatement getPreparedStatement(Connection conn, String sql) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			return stmt;
+		} catch (Exception e) {
+			System.out.println("Erro ao obter o PreparedStatement.");
+			System.out.println("Erro: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public static PreparedStatement getPreparedStatementWithPk(Connection conn, String sql) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			return stmt;
 		} catch (Exception e) {
 			System.out.println("Erro ao obter o PreparedStatement.");

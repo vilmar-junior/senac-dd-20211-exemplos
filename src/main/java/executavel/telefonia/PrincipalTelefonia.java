@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.dao.telefonia.EnderecoDAO;
 import model.entity.telefonia.Cliente;
 import model.entity.telefonia.Endereco;
 import model.entity.telefonia.Telefone;
@@ -11,11 +12,39 @@ import model.entity.telefonia.Telefone;
 public class PrincipalTelefonia {
 
 	public static void main(String[] args) {
-		ArrayList<Cliente> clientes = criarClientes();
+//		ArrayList<Cliente> clientes = criarClientes();
+//
+//		for (Cliente c : clientes) {
+//			System.out.println(c.toString());
+//		}
 
-		for (Cliente c : clientes) {
-			System.out.println(c.toString());
+		Endereco novoEndereco = new Endereco("Rua Mauro Ramos", "SC", "Florianópolis", "88333000", "S/N");
+
+		// Teste, ainda violando o MVC
+		EnderecoDAO dao = new EnderecoDAO();
+
+		List<Endereco> enderecos = dao.consultarTodos();
+		for (Endereco enderecoBuscado : enderecos) {
+			System.out.println(enderecoBuscado);
 		}
+//		dao.cadastrar(novoEndereco);
+//
+//		System.out.println("Endereço novo: " + novoEndereco.toString());
+//
+//		novoEndereco.setLogradouro("Rua ALTERADA");
+//
+//		if (dao.atualizar(novoEndereco)) {
+//			System.out.println("Endereço atualizado: " + novoEndereco.toString());
+//		} else {
+//			System.out.println("Nao atualizou endereço");
+//		}
+//
+//		if (dao.excluir(1)) {
+//			System.out.println("Endereço excluído");
+//		} else {
+//			System.out.println("Endereço NAO excluído");
+//		}
+
 	}
 
 	private static ArrayList<Cliente> criarClientes() {

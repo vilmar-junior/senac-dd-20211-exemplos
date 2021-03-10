@@ -24,8 +24,8 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-		return "Endereco [logradouro=" + logradouro + ", uf=" + uf + ", cidade=" + cidade + ", cep=" + cep + ", numero="
-				+ numero + "]";
+		return "Endereco #" + id + " [logradouro=" + logradouro + ", uf=" + uf + ", cidade=" + cidade + ", cep=" + cep
+				+ ", numero=" + numero + "]";
 	}
 
 	public Integer getId() {
