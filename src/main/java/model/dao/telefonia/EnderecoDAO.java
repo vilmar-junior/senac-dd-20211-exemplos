@@ -73,8 +73,7 @@ public class EnderecoDAO {
 	public boolean atualizar(Endereco endereco) {
 		boolean atualizou = false;
 
-		String sql = " UPDATE ENDERECO SET CEP = ?, LOGRADOURO = ?, NUMERO = ?, UF = ?, " + " CIDADE = ? "
-				+ " WHERE ID = ?";
+		String sql = " UPDATE ENDERECO SET CEP = ?, LOGRADOURO = ?, NUMERO = ?, UF = ?, CIDADE = ? " + " WHERE ID = ?";
 
 		Connection conexao = Banco.getConnection();
 		PreparedStatement stmt = Banco.getPreparedStatement(conexao, sql);
@@ -163,13 +162,7 @@ public class EnderecoDAO {
 			ResultSet resultadoConsulta = stmt.executeQuery();
 
 			if (resultadoConsulta.next()) {
-				enderecoConsultado = new Endereco();
-				enderecoConsultado.setId(resultadoConsulta.getInt("id"));
-				enderecoConsultado.setCep(resultadoConsulta.getString("cep"));
-				enderecoConsultado.setLogradouro(resultadoConsulta.getString("logradouro"));
-				enderecoConsultado.setNumero(resultadoConsulta.getString("numero"));
-				enderecoConsultado.setUf(resultadoConsulta.getString("uf"));
-				enderecoConsultado.setCidade(resultadoConsulta.getString("cidade"));
+				enderecoConsultado = this.converterDoResultSet(resultadoConsulta);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar endereço por id: \n" + e.getMessage());
@@ -203,14 +196,7 @@ public class EnderecoDAO {
 			ResultSet resultadoConsulta = stmt.executeQuery();
 
 			while (resultadoConsulta.next()) {
-				Endereco endereco = new Endereco();
-				endereco.setId(resultadoConsulta.getInt("id"));
-				endereco.setCep(resultadoConsulta.getString("cep"));
-				endereco.setLogradouro(resultadoConsulta.getString("logradouro"));
-				endereco.setNumero(resultadoConsulta.getString("numero"));
-				endereco.setUf(resultadoConsulta.getString("uf"));
-				endereco.setCidade(resultadoConsulta.getString("cidade"));
-
+				Endereco endereco = this.converterDoResultSet(resultadoConsulta);
 				enderecos.add(endereco);
 			}
 		} catch (SQLException e) {
@@ -226,5 +212,17 @@ public class EnderecoDAO {
 		}
 
 		return enderecos;
+	}
+
+	private Endereco converterDoResultSet(ResultSet resultadoConsulta) throws SQLException {
+		Endereco endereco = new Endereco();
+		endereco.setId(resultadoConsulta.getInt("id"));
+		endereco.setCep(resultadoConsulta.getString("cep"));
+		endereco.setLogradouro(resultadoConsulta.getString("logradouro"));
+		endereco.setNumero(resultadoConsulta.getString("numero"));
+		endereco.setUf(resultadoConsulta.getString("uf"));
+		endereco.setCidade(resultadoConsulta.getString("cidade"));
+
+		return endereco;
 	}
 }

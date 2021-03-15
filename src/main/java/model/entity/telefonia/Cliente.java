@@ -11,6 +11,10 @@ public class Cliente {
 	private Endereco endereco;
 	private boolean ativo;
 
+	public Cliente() {
+		super();
+	}
+
 	public Cliente(String nome, String cpf, List<Telefone> telefones, Endereco endereco, boolean ativo) {
 		super();
 		this.nome = nome;
@@ -22,10 +26,12 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		String textoTelefones = telefones.toString();
+		String textoTelefones = "";
 
-		if (this.getTelefones().isEmpty()) {
+		if (this.getTelefones() == null || this.getTelefones().isEmpty()) {
 			textoTelefones = "Sem telefones";
+		} else {
+			textoTelefones = telefones.toString();
 		}
 
 		return "Nome: " + this.getNome() + " - " + this.getCpf() + " (" + (this.isAtivo() ? "ativo" : "inativo")

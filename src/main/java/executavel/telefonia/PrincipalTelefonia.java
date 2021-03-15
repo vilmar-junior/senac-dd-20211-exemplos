@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.dao.telefonia.EnderecoDAO;
+import model.bo.telefonia.TelefoneBO;
+import model.dao.telefonia.ClienteDAO;
 import model.entity.telefonia.Cliente;
 import model.entity.telefonia.Endereco;
 import model.entity.telefonia.Telefone;
@@ -12,21 +13,77 @@ import model.entity.telefonia.Telefone;
 public class PrincipalTelefonia {
 
 	public static void main(String[] args) {
-//		ArrayList<Cliente> clientes = criarClientes();
+//		TelefoneBO telefoneBO = new TelefoneBO();
 //
-//		for (Cliente c : clientes) {
-//			System.out.println(c.toString());
+//		Telefone novoTelefone = new Telefone("55", "70", "003333333", true, null);
+//
+//		try {
+//			telefoneBO.cadastrar(novoTelefone);
+//			System.out.println(novoTelefone);
+//		} catch (NumeroIndisponivelException e) {
+//			System.out.println("Telefone nao cadastrado");
+//			System.out.println(e.getMessage());
 //		}
 
-		Endereco novoEndereco = new Endereco("Rua Mauro Ramos", "SC", "Florianópolis", "88333000", "S/N");
+		ClienteDAO cDAO = new ClienteDAO();
+		Cliente pele = cDAO.consultarPorId(1);
+		System.out.println(pele);
 
-		// Teste, ainda violando o MVC
-		EnderecoDAO dao = new EnderecoDAO();
+		List<Telefone> telefonesDoPele = pele.getTelefones();
 
-		List<Endereco> enderecos = dao.consultarTodos();
-		for (Endereco enderecoBuscado : enderecos) {
-			System.out.println(enderecoBuscado);
-		}
+		TelefoneBO telefoneBO = new TelefoneBO();
+		String mensagem = telefoneBO.excluir(telefonesDoPele.get(2).getId());
+
+		System.out.println(mensagem);
+//
+//		novoTelefone.setIdCliente(pele.getId());
+//		tDAO.atualizar(novoTelefone);
+//
+//		System.out.println(novoTelefone);
+
+//
+//		System.out.println(pele);
+//
+//		EnderecoDAO eDAO = new EnderecoDAO();
+//		Endereco rua2 = eDAO.consultarPorId(2);
+//
+//		pele.setEndereco(rua2);
+//
+//		cDAO.atualizar(pele);
+//
+//		System.out.println(pele);
+
+//		if (cDAO.excluir(5)) {
+//			System.out.println("Cliente excluído");
+//		} else {
+//			System.out.println("Cliente NAO excluído");
+//		}
+
+//		ArrayList<Cliente> clientes = (ArrayList<Cliente>) cDAO.consultarTodos();
+//		for (Cliente c : clientes) {
+//			System.out.println(c);
+//		}
+
+//		ArrayList<Cliente> clientes = criarClientes();
+//
+//		ClienteBO clienteBO = new ClienteBO();
+//		for (Cliente c : clientes) {
+//			try {
+//				clienteBO.salvar(c);
+//			} catch (EnderecoNaoInformadoException e) {
+//				System.err.println("Cliente sem endereco");
+//			}
+//		}
+
+//		Endereco novoEndereco = new Endereco("Rua Mauro Ramos", "SC", "Florianópolis", "88333000", "S/N");
+//
+//		// Teste, ainda violando o MVC
+//		EnderecoDAO dao = new EnderecoDAO();
+//
+//		List<Endereco> enderecos = dao.consultarTodos();
+//		for (Endereco enderecoBuscado : enderecos) {
+//			System.out.println(enderecoBuscado);
+//		}
 //		dao.cadastrar(novoEndereco);
 //
 //		System.out.println("Endereço novo: " + novoEndereco.toString());
@@ -48,11 +105,11 @@ public class PrincipalTelefonia {
 	}
 
 	private static ArrayList<Cliente> criarClientes() {
-		Cliente pele = criarCliente("Edson Arantes", "010.010.010-10");
-		Cliente socrates = criarCliente("Sócrates Brasileiro", "008.010.010-10");
-		Cliente garrincha = criarCliente("Manoel dos Santos", "011.010.010-10");
-		Cliente zico = criarCliente("Artur Antunes", "020.010.010-10");
-		Cliente vampeta = criarCliente("Marcos André", "005.010.010-10");
+		Cliente pele = criarCliente("Edson Arantes", "01001001010");
+		Cliente socrates = criarCliente("Sócrates Brasileiro", "00801001010");
+		Cliente garrincha = criarCliente("Manoel dos Santos", "01101001010");
+		Cliente zico = criarCliente("Artur Antunes", "02001001010");
+		Cliente vampeta = criarCliente("Marcos André", "00501001010");
 
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		clientes.add(pele);
@@ -87,7 +144,7 @@ public class PrincipalTelefonia {
 		String numero = String.valueOf(new Random().nextInt(99999999));
 		boolean movel = new Random().nextInt(2) > 0;
 
-		Telefone novoTelefone = new Telefone(codigoInternacional, ddd, numero, movel, true);
+		Telefone novoTelefone = new Telefone(codigoInternacional, ddd, numero, movel, null);
 
 		return novoTelefone;
 	}
@@ -95,10 +152,10 @@ public class PrincipalTelefonia {
 	private static Endereco criarEnderecoAleatorio() {
 		Endereco novoEndereco = new Endereco();
 
-		double numeroBaseCep = new Random().nextInt(99999);
+		int numeroBaseCep = new Random().nextInt(99999);
 		double numero = new Random().nextInt(100);
 
-		novoEndereco.setCep(numeroBaseCep + "-000");
+		novoEndereco.setCep(numeroBaseCep + "" + "000");
 		novoEndereco.setLogradouro("Rua " + numero);
 		novoEndereco.setCidade("Cidade " + numero);
 		novoEndereco.setNumero(numero + "");
