@@ -1,14 +1,14 @@
 package view.revendedora;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 import controller.revendora.ControladoraCliente;
 import model.entity.revendedora.ClienteVO;
+import util.StringUtil;
 
 public class MenuCliente {
-
-	Scanner teclado = new Scanner(System.in);
 
 	private static final int OPCAO_MENU_CADASTRAR_CLIENTE = 1;
 	private static final int OPCAO_MENU_CONSULTAR_CLIENTE = 2;
@@ -21,135 +21,175 @@ public class MenuCliente {
 	private static final int OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR = 3;
 
 	public void apresentarMenuCliente() {
-		int opcao = this.apresentarOpcoesMenu();
+		int opcao = this.apresentarOpcoesMenuVersao2();
 		while (opcao != OPCAO_MENU_CLIENTE_VOLTAR) {
 			switch (opcao) {
 			case OPCAO_MENU_CADASTRAR_CLIENTE: {
-				this.cadastrarCliente();
+				this.cadastrarClienteVersao2();
 				break;
 			}
 			case OPCAO_MENU_CONSULTAR_CLIENTE: {
-				this.consultarCliente();
+				this.consultarClienteVersao2();
 				break;
 			}
 			case OPCAO_MENU_ATUALIZAR_CLIENTE: {
-				this.atualizarCliente();
+				this.atualizarClienteVersao2();
 				break;
 			}
 			case OPCAO_MENU_EXCLUIR_CLIENTE: {
-				this.excluirCliente();
+				this.excluirClienteVersao2();
 				break;
 			}
 			default: {
-				System.out.println("\nOpção inválida!");
+				JOptionPane.showMessageDialog(null, "Opção inválida!");
 			}
 			}
-			opcao = this.apresentarOpcoesMenu();
+			opcao = this.apresentarOpcoesMenuVersao2();
 		}
 	}
 
-	private int apresentarOpcoesMenu() {
-		System.out.println("\nRevenda Ferro Velho");
-		System.out.println("---- Menu Cliente ----");
-		System.out.println("\nOpções:");
-		System.out.println(OPCAO_MENU_CADASTRAR_CLIENTE + " - Cadastrar Cliente");
-		System.out.println(OPCAO_MENU_CONSULTAR_CLIENTE + " - Consultar Cliente");
-		System.out.println(OPCAO_MENU_ATUALIZAR_CLIENTE + " - Atualizar Cliente");
-		System.out.println(OPCAO_MENU_EXCLUIR_CLIENTE + " - Excluir Cliente");
-		System.out.println(OPCAO_MENU_CLIENTE_VOLTAR + " - Voltar");
-		System.out.print("\nDigite a opção: ");
-		return Integer.parseInt(teclado.nextLine());
+	private int apresentarOpcoesMenuVersao2() {
+		String titulo = "Revenda Ferro Velho";
+		String mensagem = "---- Menu Cliente ----\n";
+		mensagem += "Opções:\n";
+		mensagem += OPCAO_MENU_CADASTRAR_CLIENTE + " - Cadastrar Cliente \n";
+		mensagem += OPCAO_MENU_CONSULTAR_CLIENTE + " - Consultar Cliente \n";
+		mensagem += OPCAO_MENU_ATUALIZAR_CLIENTE + " - Atualizar Cliente \n";
+		mensagem += OPCAO_MENU_EXCLUIR_CLIENTE + " - Excluir Cliente \n";
+		mensagem += OPCAO_MENU_CLIENTE_VOLTAR + " - Voltar \n";
+		mensagem += "Digite a opção: \n";
+
+		String valorInformadoPeloUsuario = JOptionPane.showInputDialog(null, mensagem, titulo,
+				JOptionPane.QUESTION_MESSAGE);
+
+		int opcaoSelecionada = StringUtil.formatarStringParaInteiro(valorInformadoPeloUsuario);
+
+		if (opcaoSelecionada == StringUtil.VALOR_INVALIDO) {
+			this.apresentarOpcoesMenuVersao2();
+		}
+
+		return opcaoSelecionada;
 	}
 
-	private void cadastrarCliente() {
+	private void cadastrarClienteVersao2() {
 		ClienteVO clienteVO = new ClienteVO();
-		System.out.print("\nDigite o nome do Cliente: ");
-		clienteVO.setNome(teclado.nextLine());
-		System.out.print("Digite o CPF do Cliente: ");
-		clienteVO.setCpf(teclado.nextLine());
-		System.out.print("Digite o telefone do Cliente: ");
-		clienteVO.setTelefone(teclado.nextLine());
+
+		String nomeInformado = JOptionPane.showInputDialog("Digite o nome do Cliente:");
+		clienteVO.setNome(nomeInformado);
+
+		clienteVO.setCpf(JOptionPane.showInputDialog("Digite o CPF do Cliente:"));
+		clienteVO.setTelefone(JOptionPane.showInputDialog("Digite o telefone do Cliente: "));
 
 		ControladoraCliente controladoraCliente = new ControladoraCliente();
 		String resultado = controladoraCliente.cadastrarClienteController(clienteVO);
-		System.out.println(resultado);
+		JOptionPane.showMessageDialog(null, resultado);
 	}
 
-	private void consultarCliente() {
-		int opcao = this.apresentarOpcoesMenuConsulta();
+	private void consultarClienteVersao2() {
+		int opcao = this.apresentarOpcoesMenuConsultaVersao2();
 		ControladoraCliente controladoraCliente = new ControladoraCliente();
 		while (opcao != OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR) {
 			switch (opcao) {
 			case OPCAO_MENU_CONSULTAR_TODOS_CLIENTES: {
 				opcao = OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR;
+				String mensagem = "";
+
 				ArrayList<ClienteVO> listaClientesVO = controladoraCliente.consultarTodosClientesController();
+
 				if (listaClientesVO.isEmpty()) {
-					System.out.println("\nLista de Clientes não localizada.");
+					mensagem = "Lista de Clientes não localizada.";
 				}
-				System.out.print("\n--------- RESULTADO DA CONSULTA ---------");
-				System.out.printf("\n%3s   %-40s   %-15s   %-15s  \n", "ID", "NOME", "CPF", "TELEFONE");
+
+				mensagem = "--------- RESULTADO DA CONSULTA ---------\n";
+				mensagem += "ID, NOME, CPF, TELEFONE \n";
 				for (int i = 0; i < listaClientesVO.size(); i++) {
-					listaClientesVO.get(i).imprimir();
+					mensagem += listaClientesVO.get(i).toString() + "\n";
 				}
+
+				JOptionPane.showMessageDialog(null, mensagem);
 				break;
 			}
 			case OPCAO_MENU_CONSULTAR_UM_CLIENTE: {
 				opcao = OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR;
 				ClienteVO clienteVO = new ClienteVO();
-				System.out.print("\nInforme o código do Cliente: ");
-				clienteVO.setIdCliente(Integer.parseInt(teclado.nextLine()));
+				clienteVO.setIdCliente(obterIdDaTela());
+
 				ClienteVO cliente = controladoraCliente.consultarClienteController(clienteVO);
 				if (cliente == null) {
-					System.out.println("\nCliente não localizado.");
+					JOptionPane.showMessageDialog(null, "Cliente não localizado.");
+				} else {
+					String mensagem = "--------- RESULTADO DA CONSULTA ---------\n";
+					mensagem += "ID, NOME, CPF, TELEFONE \n";
+					if (cliente != null) {
+						mensagem += cliente.toString();
+					}
+
+					JOptionPane.showMessageDialog(null, mensagem);
 				}
-				System.out.print("\n--------- RESULTADO DA CONSULTA ---------");
-				System.out.printf("\n%3s   %-40s   %-15s   %-15s  \n", "ID", "NOME", "CPF", "TELEFONE");
-				if (cliente != null) {
-					cliente.imprimir();
-				}
+
 				break;
 			}
 			default: {
-				System.out.println("\nOpção Inválida");
-				opcao = this.apresentarOpcoesMenuConsulta();
+				JOptionPane.showMessageDialog(null, "Opção Inválida");
+				opcao = this.apresentarOpcoesMenuConsultaVersao2();
 			}
 			}
 		}
 	}
 
-	private int apresentarOpcoesMenuConsulta() {
-		System.out.println("\nInforme o tipo de consulta a ser realizada");
-		System.out.println(OPCAO_MENU_CONSULTAR_TODOS_CLIENTES + " - Consultar todos os Clientes");
-		System.out.println(OPCAO_MENU_CONSULTAR_UM_CLIENTE + " - Consultar um Cliente Específico");
-		System.out.println(OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR + " - Voltar");
-		System.out.print("\nDigite a Opção: ");
-		return Integer.parseInt(teclado.nextLine());
+	private int obterIdDaTela() {
+		int id = StringUtil.formatarStringParaInteiro(JOptionPane.showInputDialog("Digite o código do Cliente: "));
+
+		if (id == StringUtil.VALOR_INVALIDO) {
+			JOptionPane.showMessageDialog(null, "Informe um código numérico");
+		}
+
+		return id;
 	}
 
-	private void atualizarCliente() {
+	private int apresentarOpcoesMenuConsultaVersao2() {
+		String mensagem = "Informe o tipo de consulta a ser realizada \n";
+		mensagem += OPCAO_MENU_CONSULTAR_TODOS_CLIENTES + " - Consultar todos os Clientes \n";
+		mensagem += OPCAO_MENU_CONSULTAR_UM_CLIENTE + " - Consultar um Cliente Específico \n";
+		mensagem += OPCAO_MENU_CONSULTAR_CLIENTE_VOLTAR + " - Voltar \n";
+		mensagem += "\nDigite a Opção: ";
+
+		int valorConvertido = StringUtil.formatarStringParaInteiro(JOptionPane.showInputDialog(mensagem));
+
+		if (valorConvertido == StringUtil.VALOR_INVALIDO) {
+			JOptionPane.showMessageDialog(null, "Informe um código numérico");
+		}
+
+		return valorConvertido;
+	}
+
+	private void atualizarClienteVersao2() {
 		ClienteVO clienteVO = new ClienteVO();
-		System.out.print("\nDigite o código do Cliente: ");
-		clienteVO.setIdCliente(Integer.parseInt(teclado.nextLine()));
-		System.out.print("Digite o nome do Cliente: ");
-		clienteVO.setNome(teclado.nextLine());
-		System.out.print("Digite o CPF do Cliente: ");
-		clienteVO.setCpf(teclado.nextLine());
-		System.out.print("Digite o telefone do Cliente: ");
-		clienteVO.setTelefone(teclado.nextLine());
 
-		ControladoraCliente controladoraCliente = new ControladoraCliente();
-		String resultado = controladoraCliente.atualizarClienteController(clienteVO);
-		System.out.println(resultado);
+		int id = obterIdDaTela();
+		if (id != StringUtil.VALOR_INVALIDO) {
+			clienteVO.setIdCliente(id);
+
+			clienteVO.setNome(JOptionPane.showInputDialog("Digite o nome do Cliente: "));
+			clienteVO.setCpf(JOptionPane.showInputDialog("Digite o CPF do Cliente: "));
+			clienteVO.setTelefone(JOptionPane.showInputDialog("Digite o telefone do Cliente: "));
+
+			ControladoraCliente controladoraCliente = new ControladoraCliente();
+			String resultado = controladoraCliente.atualizarClienteController(clienteVO);
+			JOptionPane.showMessageDialog(null, resultado);
+		}
 	}
 
-	private void excluirCliente() {
+	private void excluirClienteVersao2() {
 		ClienteVO clienteVO = new ClienteVO();
-		System.out.print("\nDigite o código do Cliente: ");
-		clienteVO.setIdCliente(Integer.parseInt(teclado.nextLine()));
+		int id = obterIdDaTela();
 
-		ControladoraCliente controladoraCliente = new ControladoraCliente();
-		String resultado = controladoraCliente.excluirClienteController(clienteVO);
-		System.out.println(resultado);
+		if (id != StringUtil.VALOR_INVALIDO) {
+			clienteVO.setIdCliente(id);
+
+			ControladoraCliente controladoraCliente = new ControladoraCliente();
+			String resultado = controladoraCliente.excluirClienteController(clienteVO);
+			JOptionPane.showMessageDialog(null, resultado);
+		}
 	}
-
 }

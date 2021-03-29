@@ -2,9 +2,11 @@ package view.revendedora;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class Menu {
 
-	Scanner teclado = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 
 	private static final int OPCAO_MENU_CLIENTE = 1;
 	private static final int OPCAO_MENU_VEICULO = 2;
@@ -13,7 +15,8 @@ public class Menu {
 	private static final int OPCAO_MENU_SAIR = 5;
 
 	public void apresentarMenu() {
-		int opcao = this.apresentarOpcoesMenu();
+		int opcao = this.apresentarOpcoesMenuVersao2();
+
 		while (opcao != OPCAO_MENU_SAIR) {
 			switch (opcao) {
 			case OPCAO_MENU_CLIENTE: {
@@ -37,11 +40,34 @@ public class Menu {
 				break;
 			}
 			default: {
-				System.out.println("\nOpção inválida!");
+				JOptionPane.showMessageDialog(null, "Opção inválida!");
 			}
 			}
 			opcao = this.apresentarOpcoesMenu();
 		}
+	}
+
+	private int apresentarOpcoesMenuVersao2() {
+		String mensagem = "Opções:\n";
+		mensagem += OPCAO_MENU_CLIENTE + " - Menu Cliente \n";
+		mensagem += OPCAO_MENU_VEICULO + " - Menu Veículo \n";
+		mensagem += OPCAO_MENU_VENDA + " - Menu Venda \n";
+		mensagem += OPCAO_MENU_RELATORIO + " - Menu Relatório \n";
+		mensagem += OPCAO_MENU_SAIR + " - Sair \n";
+		mensagem += "\nDigite a opção: ";
+
+		String valorInformadoPeloUsuario = JOptionPane.showInputDialog(null, mensagem, "Revenda Ferro Velho",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		int opcaoSelecionada = 0;
+		try {
+			opcaoSelecionada = Integer.parseInt(valorInformadoPeloUsuario);
+		} catch (NumberFormatException excecao) {
+			JOptionPane.showMessageDialog(null, "Informe um valor numérico");
+			this.apresentarOpcoesMenuVersao2();
+		}
+
+		return opcaoSelecionada;
 	}
 
 	private int apresentarOpcoesMenu() {
@@ -53,7 +79,7 @@ public class Menu {
 		System.out.println(OPCAO_MENU_RELATORIO + " - Menu Relatório");
 		System.out.println(OPCAO_MENU_SAIR + " - Sair");
 		System.out.print("\nDigite a opção: ");
-		return Integer.parseInt(teclado.nextLine());
+		return Integer.parseInt(scanner.nextLine());
 	}
 
 }

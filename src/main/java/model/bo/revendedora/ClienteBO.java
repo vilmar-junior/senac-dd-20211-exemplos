@@ -7,7 +7,7 @@ import model.entity.revendedora.ClienteVO;
 
 public class ClienteBO {
 
-	public String cadastarClienteBO(ClienteVO clienteVO) {
+	public String cadastrarClienteBO(ClienteVO clienteVO) {
 		String retorno;
 		ClienteDAO clienteDAO = new ClienteDAO();
 		if (clienteDAO.verificarRegistroPorCpf(clienteVO.getCpf())) {

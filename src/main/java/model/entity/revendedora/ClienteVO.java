@@ -56,4 +56,7 @@ public class ClienteVO {
 				this.getTelefone());
 	}
 
+	public String toString() {
+		return this.getIdCliente() + " - " + this.getNome() + " - " + this.getCpf() + " - " + this.getTelefone();
+	}
 }

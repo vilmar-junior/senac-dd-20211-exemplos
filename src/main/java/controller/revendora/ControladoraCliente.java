@@ -9,7 +9,7 @@ public class ControladoraCliente {
 
 	public String cadastrarClienteController(ClienteVO clienteVO) {
 		ClienteBO clienteBO = new ClienteBO();
-		return clienteBO.cadastarClienteBO(clienteVO);
+		return clienteBO.cadastrarClienteBO(clienteVO);
 	}
 
 	public String excluirClienteController(ClienteVO clienteVO) {

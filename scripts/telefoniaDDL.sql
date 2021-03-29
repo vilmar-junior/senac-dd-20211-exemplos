@@ -1,3 +1,5 @@
+CREATE SCHEMA telefonia;
+
 CREATE TABLE telefonia.Telefone (
 	id integer auto_increment NOT NULL,
 	codigo_internacional VARCHAR(2) NOT NULL,
@@ -6,7 +8,7 @@ CREATE TABLE telefonia.Telefone (
 	id_cliente integer NULL, --atributo da tabela cliente, mas não é FK!
 	movel BOOL NULL,
 	ativo BOOL NULL,
-	CONSTRAINT telefone_pk PRIMARY KEY (id),
+	CONSTRAINT telefone_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE telefonia.Endereco (
