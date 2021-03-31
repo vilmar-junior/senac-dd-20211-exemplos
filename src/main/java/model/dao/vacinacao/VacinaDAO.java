@@ -36,7 +36,7 @@ public class VacinaDAO {
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conexao, sql);
 
 		try {
-			stmt.setString(1, novaVacina.getNome());
+			stmt.setString(1, novaVacina.getNome().toUpperCase());
 			stmt.setString(2, novaVacina.getPaisOrigem());
 			stmt.setString(3, novaVacina.getEstagioPesquisa());
 
