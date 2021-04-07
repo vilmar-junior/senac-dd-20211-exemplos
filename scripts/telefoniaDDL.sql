@@ -5,14 +5,14 @@ CREATE TABLE telefonia.Telefone (
 	codigo_internacional VARCHAR(2) NOT NULL,
 	ddd VARCHAR(2) NOT NULL,
 	numero VARCHAR(9) NOT NULL,
-	id_cliente integer NULL, --atributo da tabela cliente, mas não é FK!
+	id_cliente integer NULL,
 	movel BOOL NULL,
 	ativo BOOL NULL,
 	CONSTRAINT telefone_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE telefonia.Endereco (
-	id integer auto_increment NULL,
+	id integer auto_increment NOT NULL,
 	cep VARCHAR(8) NOT NULL,
 	logradouro VARCHAR(500) NOT NULL,
 	cidade VARCHAR(100) NOT NULL,

@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import model.dao.Banco;
 import model.entity.telefonia.Endereco;
@@ -140,6 +144,31 @@ public class EnderecoDAO {
 
 		return excluiu;
 	}
+	
+	public Endereco consultarPorCepExterno(String cep) {
+		Endereco enderecoConsultado = null;
+		
+		ClienteViaCepWS viaCep = new ClienteViaCepWS();
+		String json = viaCep.buscarCep(cep);
+		
+		if(json != null) {
+			Map<String,String> mapa = new HashMap<>();
+			
+			Matcher matcher = Pattern.compile("\"\\D.*?\": \".*?\"").matcher(json);
+			while (matcher.find()) {
+				String[] group = matcher.group().split(":");
+				mapa.put(group[0].replaceAll("\"", "").trim(), group[1].replaceAll("\"", "").trim());
+			}
+			enderecoConsultado = new Endereco();
+			enderecoConsultado.setCep(cep);
+			enderecoConsultado.setCidade(mapa.get("localidade"));
+			enderecoConsultado.setLogradouro(mapa.get("logradouro"));
+			enderecoConsultado.setUf(mapa.get("uf"));
+		}
+		
+		return enderecoConsultado;
+	}
+	
 
 	/**
 	 * Busca um endereco no banco.
