@@ -32,6 +32,7 @@ public class TelaCadastroEndereco {
 	private JTextField txtNumero;
 	private JComboBox cbUf;
 	private JTextArea txtLogradouro;
+	private Endereco endereco;
 
 	/**
 	 * Launch the application.
@@ -40,7 +41,7 @@ public class TelaCadastroEndereco {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastroEndereco window = new TelaCadastroEndereco();
+					TelaCadastroEndereco window = new TelaCadastroEndereco(null);
 					window.janela.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +53,8 @@ public class TelaCadastroEndereco {
 	/**
 	 * Create the application.
 	 */
-	public TelaCadastroEndereco() {
+	public TelaCadastroEndereco(Endereco endereco) {
+		this.endereco = endereco;
 		initialize();
 	}
 
@@ -67,7 +69,7 @@ public class TelaCadastroEndereco {
 				txtCep.requestFocus();
 			}
 		});
-		janela.setTitle("Cadastro de Endere\u00E7o");
+		
 		janela.setBounds(100, 100, 390, 300);
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		janela.getContentPane().setLayout(null);
@@ -144,11 +146,27 @@ public class TelaCadastroEndereco {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
-				cadastrarEndereco();
+				salvarEndereco();
 			}
 		});
 		btnCadastrar.setBounds(10, 230, 350, 23);
-		janela.getContentPane().add(btnCadastrar);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evento) {
+				salvarEndereco();
+			}
+		});
+		btnAtualizar.setBounds(10, 230, 350, 23);
+		
+		if(endereco != null) {
+			preencherEnderecoNaTela(endereco);
+			janela.setTitle("Edição de Endere\u00E7o");
+			janela.getContentPane().add(btnAtualizar);
+		}else {
+			janela.getContentPane().add(btnCadastrar);
+			janela.setTitle("Cadastro de Endere\u00E7o");
+		}
 	}
 
 	protected void consultarCep() {
@@ -161,9 +179,11 @@ public class TelaCadastroEndereco {
 	}
 
 	protected void preencherEnderecoNaTela(Endereco e) {
+		this.txtCep.setText(e.getCep());
 		this.txtCidade.setText(e.getCidade());
 		this.txtLogradouro.setText(e.getLogradouro());
 		this.cbUf.setSelectedItem(e.getUf());
+		this.txtNumero.setText(e.getNumero());
 		
 		this.txtCidade.setEnabled(false);
 
@@ -176,7 +196,7 @@ public class TelaCadastroEndereco {
 		this.cbUf.setEnabled(false);
 	}
 
-	protected void cadastrarEndereco() {
+	protected void salvarEndereco() {
 		if(cbUf.getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(null, "Selecione um estado");
 		}else {
@@ -190,12 +210,30 @@ public class TelaCadastroEndereco {
 			novoEndereco.setLogradouro(txtLogradouro.getText());
 			novoEndereco.setNumero(txtNumero.getText());
 			
-			//Chamar EnderecoController, passando o novo endereço
 			EnderecoController controlador = new EnderecoController();
-			String mensagem = controlador.salvar(novoEndereco);
+			String mensagem = "";
+			if(endereco == null) {
+				//Chamar EnderecoController, passando o novo endereço
+				mensagem = controlador.salvar(novoEndereco);
+			}else {
+				novoEndereco.setId(endereco.getId());
+				mensagem = controlador.atualizar(novoEndereco);
+			}
 			
 			//Mostrar na tela o que aconteceu com o cadastrar
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
+	}
+	
+	public JFrame getJanela() {
+		return janela;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 }
