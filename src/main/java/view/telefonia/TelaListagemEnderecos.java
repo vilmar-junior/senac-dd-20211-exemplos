@@ -66,8 +66,7 @@ public class TelaListagemEnderecos extends JFrame {
 		});
 		btnConsultarTodos.setBounds(143, 11, 141, 23);
 		contentPane.add(btnConsultarTodos);
-		
-		
+
 		btnExcluirEndereco = new JButton("Excluir endereço");
 		btnExcluirEndereco.setEnabled(false);
 		btnExcluirEndereco.setBounds(30, 227, 153, 23);
