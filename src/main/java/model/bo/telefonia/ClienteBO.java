@@ -11,7 +11,7 @@ public class ClienteBO {
 
 	public Cliente salvar(Cliente cliente) throws EnderecoNaoInformadoException {
 
-		if (cliente.getEndereco() == null) {
+		if (cliente == null || cliente.getEndereco() == null) {
 			throw new EnderecoNaoInformadoException("Endereço é obrigatório, favor informar");
 		}
 
