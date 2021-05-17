@@ -13,6 +13,7 @@ public abstract class Triangulo {
 	private double base;
 	private double altura;
 	private double area;
+	
 
 	public Triangulo(double base, double altura) {
 		super();
