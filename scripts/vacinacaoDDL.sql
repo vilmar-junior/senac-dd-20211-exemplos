@@ -1,5 +1,5 @@
 CREATE SCHEMA vacinacao;
-
+-- Alteração teste alison
 CREATE TABLE vacinacao.Pessoa (
 	id integer auto_increment NOT NULL,
 	nome VARCHAR(200) NOT NULL,
